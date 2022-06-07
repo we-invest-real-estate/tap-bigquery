@@ -37,36 +37,37 @@ def _build_query(keys, filters=[], inclusive_start=True, limit=None):
     if filters:
         for f in filters:
             query = query + " AND " + f
-
+    LOGGER.debug(type(keys.get("datetime_key")))
     if keys.get("datetime_key") and keys.get("start_datetime"):
         if inclusive_start:
-            if type(keys.get("datetime_key")) == int :
+            
+            # if type(keys.get("datetime_key")) == int :
                 query = (query +
                      (" AND datetime '{start_datetime}' <= " +
                       "CAST(TIMESTAMP_MICROS({datetime_key}) as datetime)").format(**keys))
-            else :
-                query = (query +
-                        (" AND datetime '{start_datetime}' <= " +
-                        "CAST({datetime_key} as datetime)").format(**keys))
+            # else :
+            #     query = (query +
+            #             (" AND datetime '{start_datetime}' <= " +
+            #             "CAST({datetime_key} as datetime)").format(**keys))
         else:
-            if type(keys.get("datetime_key")) == int :
+            # if type(keys.get("datetime_key")) == int :
                 query = (query +
                         (" AND datetime '{start_datetime}' < " +
                         "CAST(TIMESTAMP_MICROS({datetime_key}) as datetime)").format(**keys))
-            else :
-                query = (query +
-                     (" AND datetime '{start_datetime}' < " +
-                      "CAST({datetime_key} as datetime)").format(**keys))
+            # else :
+            #     query = (query +
+            #          (" AND datetime '{start_datetime}' < " +
+            #           "CAST({datetime_key} as datetime)").format(**keys))
 
     if keys.get("datetime_key") and keys.get("end_datetime"):
-        if type(keys.get("datetime_key")) == int :
+        # if type(keys.get("datetime_key")) == int :
                 query = (query +
                     (" AND CAST(TIMESTAMP_MICROS({datetime_key}) as datetime) < " +
                     "datetime '{end_datetime}'").format(**keys))
-        else:
-            query = (query +
-                    (" AND CAST({datetime_key} as datetime) < " +
-                    "datetime '{end_datetime}'").format(**keys))
+        # else:
+        #     query = (query +
+        #             (" AND CAST({datetime_key} as datetime) < " +
+        #             "datetime '{end_datetime}'").format(**keys))
     if keys.get("datetime_key"):
         query = (query + " ORDER BY {datetime_key}".format(**keys))
 
