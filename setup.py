@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name="tap-bigquery",
+    name="tap-bigquery-ga",
     version=VERSION,
     description="Singer.io tap for extracting data from BigQuery",
     long_description=long_description,
@@ -40,10 +40,10 @@ setup(
 
     entry_points="""
     [console_scripts]
-    tap-bigquery=tap_bigquery:main
+    tap-bigquery-ga=tap_bigquery_ga:main
     """,
 
-    packages=["tap_bigquery"],
+    packages=["tap_bigquery_ga"],
     package_data={
     },
     include_package_data=True,
