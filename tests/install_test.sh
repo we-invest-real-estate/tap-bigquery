@@ -1,7 +1,7 @@
 #!/bin/bash
 
-PACKAGE=tap_bigquery
-COMMAND=tap-bigquery
+PACKAGE=tap_bigquery_ga
+COMMAND=tap-bigquery-ga
 
 PYTHON=/opt/python/3.6/bin/python
 if [ ! -e $PYTHON ]; then

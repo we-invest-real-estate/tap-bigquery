@@ -1,4 +1,4 @@
-from tap_bigquery.sync_bigquery import _build_query as build_query
+from tap_bigquery_ga.sync_bigquery import _build_query as build_query
 
 
 def test_column_construction():
