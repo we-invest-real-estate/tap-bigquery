@@ -35,4 +35,4 @@ jobs:
           port: 22
           script: |
             cd meltano-projects/project/
-            docker-compose -f docker-compose.prod.yml exec -T meltano_ui meltano install extractor tap-tap-bigquery-ga
+            docker-compose -f docker-compose.prod.yml exec -T meltano_ui meltano install extractor tap-bigquery-ga
