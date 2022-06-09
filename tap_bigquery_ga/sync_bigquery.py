@@ -1,7 +1,7 @@
 import copy, datetime, json, time
 import dateutil.parser
 from decimal import Decimal
-
+from datetime import datetime
 import singer
 import singer.metrics as metrics
 
@@ -41,33 +41,21 @@ def _build_query(keys, filters=[], inclusive_start=True, limit=None):
     if keys.get("datetime_key") and keys.get("start_datetime"):
         if inclusive_start:
             
-            # if type(keys.get("datetime_key")) == int :
                 query = (query +
                      (" AND datetime '{start_datetime}' <= " +
                       "CAST(TIMESTAMP_MICROS({datetime_key}) as datetime)").format(**keys))
-            # else :
-            #     query = (query +
-            #             (" AND datetime '{start_datetime}' <= " +
-            #             "CAST({datetime_key} as datetime)").format(**keys))
+           
         else:
-            # if type(keys.get("datetime_key")) == int :
                 query = (query +
                         (" AND datetime '{start_datetime}' < " +
                         "CAST(TIMESTAMP_MICROS({datetime_key}) as datetime)").format(**keys))
-            # else :
-            #     query = (query +
-            #          (" AND datetime '{start_datetime}' < " +
-            #           "CAST({datetime_key} as datetime)").format(**keys))
+          
 
     if keys.get("datetime_key") and keys.get("end_datetime"):
-        # if type(keys.get("datetime_key")) == int :
                 query = (query +
                     (" AND CAST(TIMESTAMP_MICROS({datetime_key}) as datetime) < " +
                     "datetime '{end_datetime}'").format(**keys))
-        # else:
-        #     query = (query +
-        #             (" AND CAST({datetime_key} as datetime) < " +
-        #             "datetime '{end_datetime}'").format(**keys))
+       
     if keys.get("datetime_key"):
         query = (query + " ORDER BY {datetime_key}".format(**keys))
 
@@ -165,8 +153,8 @@ def do_sync(config, state, stream):
     tap_stream_id = stream.tap_stream_id
 
     inclusive_start = True
-    start_datetime = singer.get_bookmark(state, tap_stream_id,
-                                         BOOKMARK_KEY_NAME)
+    start_datetime = datetime.fromtimestamp(singer.get_bookmark(state, tap_stream_id,
+                                         BOOKMARK_KEY_NAME))
     if start_datetime:
         if not config.get("start_always_inclusive"):
             inclusive_start = False
