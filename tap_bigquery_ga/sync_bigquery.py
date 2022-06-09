@@ -1,7 +1,6 @@
 import copy, datetime, json, time
 import dateutil.parser
 from decimal import Decimal
-import datetime
 import singer
 import singer.metrics as metrics
 
