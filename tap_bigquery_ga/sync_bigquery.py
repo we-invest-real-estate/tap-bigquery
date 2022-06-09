@@ -154,7 +154,7 @@ def do_sync(config, state, stream):
 
     inclusive_start = True
     start_datetime = datetime.fromtimestamp(singer.get_bookmark(state, tap_stream_id,
-                                         BOOKMARK_KEY_NAME))
+                                         BOOKMARK_KEY_NAME) // 1000000)
     if start_datetime:
         if not config.get("start_always_inclusive"):
             inclusive_start = False
