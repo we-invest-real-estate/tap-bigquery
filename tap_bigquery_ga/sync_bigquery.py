@@ -37,24 +37,22 @@ def _build_query(keys, filters=[], inclusive_start=True, limit=None):
     if filters:
         for f in filters:
             query = query + " AND " + f
-    LOGGER.debug(type(keys.get("datetime_key")))
     if keys.get("datetime_key") and keys.get("start_datetime"):
         if inclusive_start:
-            
                 query = (query +
                      (" AND datetime '{start_datetime}' <= " +
-                      "CAST(TIMESTAMP_MICROS({datetime_key}) as datetime)").format(**keys))
+                      "{datetime_key}").format(**keys))
            
         else:
                 query = (query +
                         (" AND datetime '{start_datetime}' < " +
-                        "CAST(TIMESTAMP_MICROS({datetime_key}) as datetime)").format(**keys))
+                        "{datetime_key}").format(**keys))
           
 
     if keys.get("datetime_key") and keys.get("end_datetime"):
                 query = (query +
-                    (" AND CAST(TIMESTAMP_MICROS({datetime_key}) as datetime) < " +
-                    "datetime '{end_datetime}'").format(**keys))
+                    (" AND {datetime_key} < " +
+                    "'{end_datetime}'").format(**keys))
        
     if keys.get("datetime_key"):
         query = (query + " ORDER BY {datetime_key}".format(**keys))
@@ -69,13 +67,11 @@ def do_discover(config, stream, output_schema_file=None,
                 add_timestamp=True):
     client = bigquery.Client()
 
-    start_datetime = dateutil.parser.parse(
-        config.get("start_datetime")).strftime("%Y-%m-%d %H:%M:%S.%f")
+    start_datetime = config.get("start_datetime")
 
     end_datetime = None
     if config.get("end_datetime"):
-        end_datetime = dateutil.parser.parse(
-            config.get("end_datetime")).strftime("%Y-%m-%d %H:%M:%S.%f")
+        end_datetime = config.get("end_datetime")
 
     keys = {"table": stream["table"],
             "columns": stream["columns"],
@@ -153,19 +149,17 @@ def do_sync(config, state, stream):
     tap_stream_id = stream.tap_stream_id
 
     inclusive_start = True
-    start_datetime = datetime.fromtimestamp(singer.get_bookmark(state, tap_stream_id,
-                                         BOOKMARK_KEY_NAME) // 1000000)
+    start_datetime = singer.get_bookmark(state, tap_stream_id,
+                                         BOOKMARK_KEY_NAME)
     if start_datetime:
         if not config.get("start_always_inclusive"):
             inclusive_start = False
     else:
         start_datetime = config.get("start_datetime")
-    start_datetime = dateutil.parser.parse(start_datetime).strftime(
-            "%Y-%m-%d %H:%M:%S.%f")
+    start_datetime = start_datetime
 
     if config.get("end_datetime"):
-        end_datetime = dateutil.parser.parse(
-            config.get("end_datetime")).strftime("%Y-%m-%d %H:%M:%S.%f")
+        end_datetime = config.get("end_datetime")
 
     singer.write_schema(tap_stream_id, stream.schema.to_dict(),
                         stream.key_properties)
