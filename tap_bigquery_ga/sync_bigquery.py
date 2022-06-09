@@ -45,14 +45,14 @@ def _build_query(keys, filters=[], inclusive_start=True, limit=None):
            
         else:
                 query = (query +
-                        (" AND datetime '{start_datetime}' < " +
+                        (" AND {start_datetime} < " +
                         "{datetime_key}").format(**keys))
           
 
     if keys.get("datetime_key") and keys.get("end_datetime"):
                 query = (query +
                     (" AND {datetime_key} < " +
-                    "'{end_datetime}'").format(**keys))
+                    "{end_datetime}").format(**keys))
        
     if keys.get("datetime_key"):
         query = (query + " ORDER BY {datetime_key}".format(**keys))

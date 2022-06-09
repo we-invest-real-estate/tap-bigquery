@@ -5,6 +5,7 @@ import attr
 import backoff
 import requests
 import simplejson as json
+import time
 
 import singer
 from singer import utils as singer_utils
@@ -162,7 +163,7 @@ def main():
         CONFIG[arg] = args_dict[arg]
 
     if not CONFIG.get("end_datetime"):
-        CONFIG["end_datetime"]  = datetime.datetime.utcnow().isoformat()
+        CONFIG["end_datetime"]  = int(time.time()*1000000)
 
     singer_utils.check_config(CONFIG, REQUIRED_CONFIG_KEYS)
 
