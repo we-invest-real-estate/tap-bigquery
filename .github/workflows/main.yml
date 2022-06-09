@@ -1,0 +1,38 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Update-Extractor:
+    runs-on: ubuntu-latest
+    name: Update tap-bigquery-ga extractor
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-3
+
+      - name: Whitelist gitlab runne to EC2
+        uses: passeidireto/aws-add-ip-to-security-group-action@main
+        with:
+          aws_security_group_ids: ${{ secrets.EC2_SECURITY_GROUP_ID }}
+          port_range: '22'
+
+      - name: Reinstall extractor
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOSTNAME }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd meltano-projects/project/
+            docker-compose -f docker-compose.prod.yml exec -T meltano_ui meltano install extractor tap-bigquery-ga
