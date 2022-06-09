@@ -40,7 +40,7 @@ def _build_query(keys, filters=[], inclusive_start=True, limit=None):
     if keys.get("datetime_key") and keys.get("start_datetime"):
         if inclusive_start:
                 query = (query +
-                     (" AND datetime '{start_datetime}' <= " +
+                     (" AND {start_datetime} <= " +
                       "{datetime_key}").format(**keys))
            
         else:
