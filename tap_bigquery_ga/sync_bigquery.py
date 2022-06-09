@@ -180,7 +180,7 @@ def do_sync(config, state, stream):
 
     LOGGER.info("Running query:\n    %s" % query)
 
-    extract_tstamp = datetime.datetime.utcnow()
+    extract_tstamp = datetime.utcnow()
     extract_tstamp = extract_tstamp.replace(tzinfo=datetime.timezone.utc)
 
     with metrics.record_counter(tap_stream_id) as counter:
