@@ -24,7 +24,7 @@ jobs:
         uses: passeidireto/aws-add-ip-to-security-group-action@main
         with:
           aws_security_group_ids: ${{ secrets.EC2_SECURITY_GROUP_ID }}
-          port_range: '22'
+          port_range: "22"
 
       - name: Reinstall extractor
         uses: appleboy/ssh-action@master
@@ -36,3 +36,4 @@ jobs:
           script: |
             cd meltano-projects/project/
             docker-compose -f docker-compose.prod.yml exec -T meltano_ui meltano install extractor tap-bigquery-ga
+            docker-compose -f docker-compose.prod.yml exec -T airflow_scheduler meltano install extractor tap-bigquery-ga
