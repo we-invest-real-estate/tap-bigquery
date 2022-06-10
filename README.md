@@ -23,17 +23,16 @@ this program.
 
 ### Step 1: Activate the Google BigQuery API
 
- (originally found in the [Google API docs](https://googlecloudplatform.github.io/google-cloud-python/latest/bigquery/usage.html))
+(originally found in the [Google API docs](https://googlecloudplatform.github.io/google-cloud-python/latest/bigquery/usage.html))
 
- 1. Use [this wizard](https://console.developers.google.com/start/api?id=bigquery-json.googleapis.com) to create or select a project in the Google Developers Console and activate the BigQuery API. Click Continue, then Go to credentials.
- 2. On the **Add credentials to your project** page, click the **Cancel** button.
- 3. At the top of the page, select the **OAuth consent screen** tab. Select an **Email address**, enter a **Product name** if not already set, and click the **Save** button.
- 4. Select the **Credentials** tab, click the **Create credentials** button and select **OAuth client ID**.
- 5. Select the application type **Other**, enter the name "Singer BigQuery Tap", and click the **Create** button.
- 6. Click **OK** to dismiss the resulting dialog.
- 7. Click the Download button to the right of the client ID.
- 8. Move this file to your working directory and rename it *client_secrets.json*.
-
+1.  Use [this wizard](https://console.developers.google.com/start/api?id=bigquery-json.googleapis.com) to create or select a project in the Google Developers Console and activate the BigQuery API. Click Continue, then Go to credentials.
+2.  On the **Add credentials to your project** page, click the **Cancel** button.
+3.  At the top of the page, select the **OAuth consent screen** tab. Select an **Email address**, enter a **Product name** if not already set, and click the **Save** button.
+4.  Select the **Credentials** tab, click the **Create credentials** button and select **OAuth client ID**.
+5.  Select the application type **Other**, enter the name "Singer BigQuery Tap", and click the **Create** button.
+6.  Click **OK** to dismiss the resulting dialog.
+7.  Click the Download button to the right of the client ID.
+8.  Move this file to your working directory and rename it _client_secrets.json_.
 
 Export the location of the secret file:
 
@@ -45,7 +44,7 @@ For other authentication method, please see Authentication section.
 
 ### Step 2: Install
 
-First, make sure Python 3 is installed on your system or follow these 
+First, make sure Python 3 is installed on your system or follow these
 installation instructions for Mac or Ubuntu.
 
 ```
@@ -62,7 +61,7 @@ pip install --no-cache-dir https://github.com/anelendata/tap-bigquery/archive/ma
 
 ### Step 1: Configure
 
-Create a file called tap_config.json in your working directory, following 
+Create a file called tap_config.json in your working directory, following
 config.sample.json:
 
 ```
@@ -88,7 +87,7 @@ config.sample.json:
   - It is not a recommended BigQuery practice to use `*` to specify the columns
     as it may blow up the cost for a table with a large number of columns.
   - `filters` are optional but we strongly recommend using this over a large
-    partitioned table to control the cost. LIMIT  (The authors of tap-bigquery is not
+    partitioned table to control the cost. LIMIT (The authors of tap-bigquery is not
     responsible for the cost incurred by running this program. Always test
     thoroughly with small data set first.)
 - `start_datetime` must also be set in the config file or as the command line
@@ -165,6 +164,7 @@ gcloud config set project <project-id>
 
 Though not tested, it should also be possible to use the OAuth flow to
 authenticate to GCP as well:
+
 - `tap-bigquery` will attempt to open a new window or tab in your default
   browser. If this fails, copy the URL from the console and manually open it
   in your browser.
@@ -193,6 +193,7 @@ The tap itself does not output a state file. It anticipate the target program
 or a downstream process to fianlize the state safetly and produce a state file.
 
 ## Original repo
+
 https://github.com/anelendata/tap-bigquery
 
 # About this project
@@ -201,7 +202,6 @@ This project is developed by
 ANELEN and friends. Please check out the ANELEN's
 [open innovation philosophy and other projects](https://anelen.co/open-source.html)
 
-![ANELEN](https://avatars.githubusercontent.com/u/13533307?s=400&u=a0d24a7330d55ce6db695c5572faf8f490c63898&v=4)
----
+## ![ANELEN](https://avatars.githubusercontent.com/u/13533307?s=400&u=a0d24a7330d55ce6db695c5572faf8f490c63898&v=4)
 
-Copyright &copy; 2020~ Anelen Co., LLC
+Copyright &copy; 2020~ Anelen Co., LLC.
